@@ -1,9 +1,8 @@
 class Kahip < Formula
   desc "Karlsruhe High Quality Partitioning - graph partitioning framework"
   homepage "https://github.com/KaHIP/KaHIP"
-  url "https://github.com/KaHIP/KaHIP.git",
-      tag:      "v3.22",
-      revision: "679bfe0b49e10ec248a4d2222c3e370bba77a8bf"
+  url "https://github.com/KaHIP/KaHIP/archive/refs/tags/v3.22.tar.gz"
+  sha256 "3cbadfbf8d503351d921531413d3b66ad347a6d6e213120db87462093bb66b7c"
   license "MIT"
   head "https://github.com/KaHIP/KaHIP.git", branch: "master"
 
@@ -15,7 +14,6 @@ class Kahip < Formula
     gcc = Formula["gcc"]
     gcc_version = gcc.version.major
 
-    # Filter out Homebrew's FetchContent trap.
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
 
     system "cmake", "-B", "build",
@@ -27,13 +25,33 @@ class Kahip < Formula
                     *cmake_args
     system "cmake", "--build", "build", "-j#{ENV.make_jobs}"
 
-    # Install binaries from deploy/
-    bin.install Dir["deploy/*"].select { |f| File.executable?(f) && !File.directory?(f) }
+    # Sequential binaries
+    %w[
+      kaffpa graphchecker evaluator edge_evaluator
+      node_separator label_propagation partition_to_vertex_separator
+      edge_partitioning global_multisection node_ordering
+    ].each do |name|
+      bin.install "build/#{name}" if File.exist?("build/#{name}")
+    end
 
-    # Install libraries
-    lib.install Dir["deploy/lib*"]
+    # MPI binaries
+    bin.install "build/kaffpaE" if File.exist?("build/kaffpaE")
+    %w[
+      parhip distributed_edge_partitioning
+      graph2binary graph2binary_external toolbox
+    ].each do |name|
+      path = "build/parallel/parallel_src/#{name}"
+      bin.install path if File.exist?(path)
+    end
 
-    # Install headers
+    # Libraries
+    lib.install "build/libkahip.a" if File.exist?("build/libkahip.a")
+    lib.install "build/libkahip.so" if File.exist?("build/libkahip.so")
+    lib.install "build/libkahip_static.a" if File.exist?("build/libkahip_static.a")
+    parhip_lib = "build/parallel/parallel_src/libparhip_interface.a"
+    lib.install parhip_lib => "libparhip.a" if File.exist?(parhip_lib)
+
+    # Headers
     (include/"kahip").install "interface/kaHIP_interface.h"
     (include/"kahip").install "parallel/parallel_src/interface/parhip_interface.h"
   end
