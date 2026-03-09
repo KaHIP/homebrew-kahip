@@ -3,7 +3,7 @@ class Kahip < Formula
   homepage "https://github.com/KaHIP/KaHIP"
   url "https://github.com/KaHIP/KaHIP.git",
       tag:      "v3.22",
-      revision: "16591ec0f74302f47db6adccc202bf70444c393c"
+      revision: "679bfe0b49e10ec248a4d2222c3e370bba77a8bf"
   license "MIT"
   head "https://github.com/KaHIP/KaHIP.git", branch: "master"
 
