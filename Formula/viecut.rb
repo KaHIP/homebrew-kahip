@@ -24,8 +24,14 @@ class Viecut < Formula
     gcc = Formula["gcc"]
     gcc_version = gcc.version.major
 
-    resource("tlx").stage { (buildpath/"extlib/tlx").install Dir["*"] }
-    resource("growt").stage { (buildpath/"extlib/growt").install Dir["*"] }
+    resource("tlx").stage do
+      (buildpath/"extlib/tlx").mkpath
+      cp_r Dir["./*"], buildpath/"extlib/tlx"
+    end
+    resource("growt").stage do
+      (buildpath/"extlib/growt").mkpath
+      cp_r Dir["./*"], buildpath/"extlib/growt"
+    end
 
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
 
