@@ -1,46 +1,19 @@
 class Viecut < Formula
   desc "VieCut - Shared-Memory Parallel Minimum Cut Algorithms"
   homepage "https://github.com/KaHIP/VieCut"
-  url "https://github.com/KaHIP/VieCut/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "2d853894bdf48f8f662a931b7fa7645d7aeecbe4692b81c01c14df79355f05b5"
+  url "https://github.com/KaHIP/VieCut.git", tag: "v1.0.0"
   license "MIT"
   head "https://github.com/KaHIP/VieCut.git", branch: "master"
-
-  resource "tlx" do
-    url "https://github.com/tlx/tlx/archive/refs/tags/v0.6.1.tar.gz"
-    sha256 "24dd1acf36dd43b8e0414420e3f9adc2e6bb0e75047e872a06167961aedad769"
-  end
-
-  resource "growt" do
-    url "https://github.com/TooBiased/growt/archive/5c65f3e2ce7dd8eebe5943be2cd8f55608fb5f4a.tar.gz"
-    sha256 "ecf66b7c9c6c731f5b3338efd394fbeebad5357377c9466df05d682de09bbdc8"
-  end
-
-  resource "utils_tm" do
-    url "https://github.com/TooBiased/utils_tm/archive/c985102fa3f99582a7245efe00f5df7ad3287f75.tar.gz"
-    sha256 "d58751a9852831dcbdb208e5f7e046e323d5158751b1edf3e187d6cfcecf6b80"
-  end
 
   depends_on "cmake" => :build
   depends_on "gcc" => :build
   depends_on "open-mpi"
 
   def install
+    system "git", "submodule", "update", "--init", "--recursive"
+
     gcc = Formula["gcc"]
     gcc_version = gcc.version.major
-
-    resource("tlx").stage do
-      (buildpath/"extlib/tlx").mkpath
-      cp_r Dir["./*"], buildpath/"extlib/tlx"
-    end
-    resource("growt").stage do
-      (buildpath/"extlib/growt").mkpath
-      cp_r Dir["./*"], buildpath/"extlib/growt"
-    end
-    resource("utils_tm").stage do
-      (buildpath/"extlib/growt/utils").mkpath
-      cp_r Dir["./*"], buildpath/"extlib/growt/utils"
-    end
 
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
 
