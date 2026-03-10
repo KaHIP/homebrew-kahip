@@ -26,8 +26,8 @@ class Vieclus < Formula
     system "cmake", "--build", "build", "-j#{ENV.make_jobs}"
 
     bin.install "build/evolutionary_clustering" => "vieclus"
-    bin.install "build/graphchecker" if File.exist?("build/graphchecker")
-    bin.install "build/evaluator" if File.exist?("build/evaluator")
+    bin.install "build/graphchecker" => "vieclus_graphchecker" if File.exist?("build/graphchecker")
+    bin.install "build/evaluator" => "vieclus_evaluator" if File.exist?("build/evaluator")
   end
 
   test do
@@ -38,7 +38,7 @@ class Vieclus < Formula
       1 2 4
       2 3
     EOS
-    system bin/"graphchecker", testpath/"test.graph"
+    system bin/"vieclus_graphchecker", testpath/"test.graph"
     output = shell_output("#{bin}/vieclus #{testpath}/test.graph --time_limit=1 2>&1")
     assert_match "modularity", output.downcase
   end
