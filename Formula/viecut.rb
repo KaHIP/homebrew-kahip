@@ -45,6 +45,6 @@ class Viecut < Formula
       2 3
     EOS
     output = shell_output("#{bin}/viecut_mincut #{testpath}/test.graph vc 2>&1")
-    assert_match(/minimum cut/, output.downcase)
+    assert_match(/cut=/, output)
   end
 end
