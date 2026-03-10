@@ -36,6 +36,7 @@ class Freight < Formula
                     "-DCMAKE_BUILD_TYPE=Release",
                     "-DCMAKE_C_COMPILER=#{gcc.opt_bin}/gcc-#{gcc_version}",
                     "-DCMAKE_CXX_COMPILER=#{gcc.opt_bin}/g++-#{gcc_version}",
+                    "-DCMAKE_C_FLAGS=-w",
                     "-DCMAKE_CXX_FLAGS=#{cxx_flags}",
                     "-DNONATIVEOPTIMIZATIONS=ON",
                     *cmake_args
