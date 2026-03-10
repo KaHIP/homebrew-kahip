@@ -8,6 +8,7 @@ class Sharedmap < Formula
 
   depends_on "cmake" => :build
   depends_on "gcc" => :build
+  depends_on "patchelf" => :build
   depends_on "hwloc"
   depends_on :linux
 
@@ -20,8 +21,24 @@ class Sharedmap < Formula
 
     system "./build.sh"
 
-    bin.install "build/SharedMap"
+    # Determine Mt-KaHyPar lib directory (lib vs lib64)
+    mtk_libdir = if Dir.exist?("extern/local/mt-kahypar/lib64")
+      "extern/local/mt-kahypar/lib64"
+    else
+      "extern/local/mt-kahypar/lib"
+    end
+
+    # Install bundled shared libraries (Mt-KaHyPar, TBB, Boost)
+    lib.install Dir["#{mtk_libdir}/libmtkahypar*"]
+    lib.install Dir["#{mtk_libdir}/libtbb*"]
+    lib.install Dir["#{mtk_libdir}/libboost_*"]
+    lib.install Dir["extern/local/kahip/lib/libkahip*"]
     lib.install Dir["build/libsharedmap.*"]
+
+    # Fix RPATH so the binary finds bundled libs at runtime
+    system "patchelf", "--set-rpath", lib.to_s, "build/SharedMap"
+
+    bin.install "build/SharedMap"
     include.install Dir["include/*"]
   end
 
