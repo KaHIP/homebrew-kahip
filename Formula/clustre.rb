@@ -21,7 +21,7 @@ class Clustre < Formula
                     "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
                     "-DCMAKE_C_COMPILER=#{gcc.opt_bin}/gcc-#{gcc_version}",
                     "-DCMAKE_CXX_COMPILER=#{gcc.opt_bin}/g++-#{gcc_version}",
-                    "-DCMAKE_CXX_FLAGS=-w",
+                    "-DCMAKE_CXX_FLAGS=-w -D_GLIBCXX_HAVE_QUICK_EXIT=0 -D_GLIBCXX_HAVE_AT_QUICK_EXIT=0",
                     "-DNONATIVEOPTIMIZATIONS=ON",
                     *cmake_args
     system "cmake", "--build", "build", "-j#{ENV.make_jobs}"
