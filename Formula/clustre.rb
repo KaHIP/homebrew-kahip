@@ -1,8 +1,8 @@
 class Clustre < Formula
   desc "CluStRE - Streaming Graph Clustering with Multi-Stage Refinement"
   homepage "https://github.com/KaHIP/CluStRE"
-  url "https://github.com/KaHIP/CluStRE/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "e4bd1702b4707b8ff98c8fc39105a92107f279963102c9cd16efedbd18a1f886"
+  url "https://github.com/KaHIP/CluStRE/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "9f6fa8d6a72d34540dbe68730a2e270e545eaf15c2cc7388400f1f9f2f648209"
   license "MIT"
   head "https://github.com/KaHIP/CluStRE.git", branch: "main"
 
