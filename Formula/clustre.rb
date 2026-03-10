@@ -7,12 +7,12 @@ class Clustre < Formula
   head "https://github.com/KaHIP/CluStRE.git", branch: "main"
 
   depends_on "cmake" => :build
-  depends_on "gcc" => :build
+  depends_on "gcc@14" => :build
   depends_on "open-mpi"
 
   def install
-    gcc = Formula["gcc"]
-    gcc_version = gcc.version.major
+    gcc = Formula["gcc@14"]
+    gcc_version = 14
 
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
 
@@ -21,7 +21,7 @@ class Clustre < Formula
                     "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
                     "-DCMAKE_C_COMPILER=#{gcc.opt_bin}/gcc-#{gcc_version}",
                     "-DCMAKE_CXX_COMPILER=#{gcc.opt_bin}/g++-#{gcc_version}",
-                    "-DCMAKE_CXX_FLAGS=-w -D_GLIBCXX_HAVE_QUICK_EXIT=0 -D_GLIBCXX_HAVE_AT_QUICK_EXIT=0",
+                    "-DCMAKE_CXX_FLAGS=-w",
                     "-DNONATIVEOPTIMIZATIONS=ON",
                     *cmake_args
     system "cmake", "--build", "build", "-j#{ENV.make_jobs}"
