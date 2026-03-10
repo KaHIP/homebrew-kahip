@@ -32,7 +32,7 @@ class Heicut < Formula
              "-DCMAKE_BUILD_TYPE=Release",
              "-DCMAKE_C_COMPILER=#{cc}",
              "-DCMAKE_CXX_COMPILER=#{cxx}",
-             "-DCMAKE_CXX_FLAGS=-w -include cstdint",
+             "-DCMAKE_CXX_FLAGS=-w -include cstdint -Wno-template-body",
              "-DKAHYPAR_DOWNLOAD_TBB=OFF",
              "-DKAHYPAR_DOWNLOAD_BOOST=OFF",
              "-DKAHYPAR_ENFORCE_MINIMUM_TBB_VERSION=OFF",
@@ -61,7 +61,7 @@ class Heicut < Formula
                     "-DCMAKE_BUILD_TYPE=Release",
                     "-DCMAKE_C_COMPILER=#{cc}",
                     "-DCMAKE_CXX_COMPILER=#{cxx}",
-                    "-DCMAKE_CXX_FLAGS=-w -include cstdint",
+                    "-DCMAKE_CXX_FLAGS=-w -include cstdint -Wno-template-body",
                     "-DUSE_GUROBI=OFF",
                     *cmake_args
     system "cmake", "--build", "build", "-j#{ENV.make_jobs}"
