@@ -50,16 +50,18 @@ class Heicut < Formula
     mtkahypar_lib = Dir["#{mtkahypar_bld}/**/libmtkahypar.{so,dylib}"].first
     odie "libmtkahypar not found after build" unless mtkahypar_lib
 
-    # Install the library with heicut-specific name to avoid conflicts with other formulas
+    # Install the library into a private subdirectory to avoid conflicts with other formulas
     ext = File.extname(mtkahypar_lib)
-    lib.install mtkahypar_lib => "libmtkahypar_heicut#{ext}"
+    private_lib = lib/"heicut"
+    private_lib.mkpath
+    cp mtkahypar_lib, private_lib/"libmtkahypar#{ext}"
 
     # Update CMakeLists.txt to link against the installed library
     inreplace "CMakeLists.txt",
       "${CMAKE_CURRENT_SOURCE_DIR}/extern/mt-kahypar-library/libmtkahypar.so",
-      "#{lib}/libmtkahypar_heicut#{ext}"
+      "#{private_lib}/libmtkahypar#{ext}"
 
-    # Build HeiCut without Gurobi
+    # Build HeiCut without Gurobi, with RPATH pointing to private lib directory
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
 
     system "cmake", "-B", "build",
@@ -68,6 +70,8 @@ class Heicut < Formula
                     "-DCMAKE_CXX_COMPILER=#{cxx}",
                     "-DCMAKE_CXX_FLAGS=-w -include cstdint -Wno-template-body",
                     "-DUSE_GUROBI=OFF",
+                    "-DCMAKE_INSTALL_RPATH=#{private_lib}",
+                    "-DCMAKE_BUILD_RPATH=#{private_lib}",
                     *cmake_args
     system "cmake", "--build", "build", "-j#{ENV.make_jobs}"
 
