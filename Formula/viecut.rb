@@ -22,7 +22,7 @@ class Viecut < Formula
                     "-DCMAKE_C_COMPILER=#{gcc.opt_bin}/gcc-#{gcc_version}",
                     "-DCMAKE_CXX_COMPILER=#{gcc.opt_bin}/g++-#{gcc_version}",
                     "-DCMAKE_C_FLAGS=-w",
-                    "-DCMAKE_CXX_FLAGS=-w",
+                    "-DCMAKE_CXX_FLAGS=-w -Wno-template-body",
                     "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
                     "-DUSE_TCMALLOC=OFF",
                     "-DRUN_TESTS=OFF",
