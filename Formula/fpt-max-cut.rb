@@ -35,9 +35,9 @@ class FptMaxCut < Formula
                     "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
                     "-DUSE_KAGEN=OFF",
                     *cmake_args
-    system "cmake", "--build", "build", "--target", "benchmark", "-j#{ENV.make_jobs}"
+    system "cmake", "--build", "build", "--target", "fpt_max_cut", "-j#{ENV.make_jobs}"
 
-    bin.install "build/benchmark" => "fpt_max_cut"
+    bin.install "build/fpt_max_cut"
   end
 
   test do
