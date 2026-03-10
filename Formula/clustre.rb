@@ -7,12 +7,38 @@ class Clustre < Formula
   head "https://github.com/KaHIP/CluStRE.git", branch: "main"
 
   depends_on "cmake" => :build
-  depends_on "gcc@14" => :build
+  depends_on "gcc" => :build
   depends_on "open-mpi"
 
   def install
-    gcc = Formula["gcc@14"]
-    gcc_version = 14
+    gcc = Formula["gcc"]
+    gcc_version = gcc.version.major
+
+    # Homebrew's GCC on macOS sets _GLIBCXX_HAVE_QUICK_EXIT=1 in c++config.h
+    # but the macOS SDK never declared at_quick_exit/quick_exit in <stdlib.h>.
+    # Provide stub declarations via a force-included header so that <cstdlib>
+    # finds them when it does `using ::quick_exit;`.
+    if OS.mac?
+      (buildpath/"gcc_macos_compat.h").write <<~HEADER
+        #ifndef GCC_MACOS_COMPAT_H
+        #define GCC_MACOS_COMPAT_H
+        #ifdef __APPLE__
+        #include <stdlib.h>
+        #ifdef __cplusplus
+        extern "C" {
+        #endif
+        static inline void quick_exit(int status) { _Exit(status); }
+        static inline int at_quick_exit(void (*func)(void)) { return atexit(func); }
+        #ifdef __cplusplus
+        }
+        #endif
+        #endif
+        #endif
+      HEADER
+      cxx_flags = "-w -include #{buildpath}/gcc_macos_compat.h"
+    else
+      cxx_flags = "-w"
+    end
 
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
 
@@ -21,7 +47,7 @@ class Clustre < Formula
                     "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
                     "-DCMAKE_C_COMPILER=#{gcc.opt_bin}/gcc-#{gcc_version}",
                     "-DCMAKE_CXX_COMPILER=#{gcc.opt_bin}/g++-#{gcc_version}",
-                    "-DCMAKE_CXX_FLAGS=-w",
+                    "-DCMAKE_CXX_FLAGS=#{cxx_flags}",
                     "-DNONATIVEOPTIMIZATIONS=ON",
                     *cmake_args
     system "cmake", "--build", "build", "-j#{ENV.make_jobs}"
