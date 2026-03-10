@@ -32,6 +32,11 @@ class Heicut < Formula
     inreplace growt_file, "sref.ref.refresh()", "sref._mref.refresh()"
     inreplace growt_file, "sref.ref.update(", "sref._mref.update("
 
+    # Strip -march flags that GCC doesn't understand on macOS (e.g. apple-m3)
+    ENV.remove "HOMEBREW_OPTFLAGS", /-march=\S*/
+    ENV["CFLAGS"] = ENV.fetch("CFLAGS", "").gsub(/-march=\S*/, "").strip
+    ENV["CXXFLAGS"] = ENV.fetch("CXXFLAGS", "").gsub(/-march=\S*/, "").strip
+
     mkdir mtkahypar_bld do
       system "cmake", mtkahypar_src,
              "-DCMAKE_BUILD_TYPE=Release",
