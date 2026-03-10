@@ -37,17 +37,23 @@ class Heicut < Formula
     ENV["CFLAGS"] = ENV.fetch("CFLAGS", "").gsub(/-march=\S*/, "").strip
     ENV["CXXFLAGS"] = ENV.fetch("CXXFLAGS", "").gsub(/-march=\S*/, "").strip
 
+    # On macOS with GCC, use a portable -march instead of -march=native (which resolves to apple-m3)
+    extra_cxx = "-w -include cstdint -Wno-template-body"
+    extra_cxx += " -march=armv8-a" if OS.mac?
+
     mkdir mtkahypar_bld do
       system "cmake", mtkahypar_src,
              "-DCMAKE_BUILD_TYPE=Release",
              "-DCMAKE_C_COMPILER=#{cc}",
              "-DCMAKE_CXX_COMPILER=#{cxx}",
-             "-DCMAKE_CXX_FLAGS=-w -include cstdint -Wno-template-body",
+             "-DCMAKE_CXX_FLAGS=#{extra_cxx}",
+             "-DCMAKE_C_FLAGS=#{OS.mac? ? "-w -march=armv8-a" : "-w"}",
              "-DKAHYPAR_DOWNLOAD_TBB=OFF",
              "-DKAHYPAR_DOWNLOAD_BOOST=OFF",
              "-DKAHYPAR_ENFORCE_MINIMUM_TBB_VERSION=OFF",
              "-DKAHYPAR_PYTHON=OFF",
-             "-DMT_KAHYPAR_DISABLE_BOOST=OFF"
+             "-DMT_KAHYPAR_DISABLE_BOOST=OFF",
+             "-DKAHYPAR_ENABLE_ARCH_COMPILE_OPTIMIZATIONS=OFF"
       system "make", "mtkahypar", "-j#{ENV.make_jobs}"
     end
 
@@ -73,7 +79,7 @@ class Heicut < Formula
                     "-DCMAKE_BUILD_TYPE=Release",
                     "-DCMAKE_C_COMPILER=#{cc}",
                     "-DCMAKE_CXX_COMPILER=#{cxx}",
-                    "-DCMAKE_CXX_FLAGS=-w -include cstdint -Wno-template-body",
+                    "-DCMAKE_CXX_FLAGS=#{extra_cxx}",
                     "-DUSE_GUROBI=OFF",
                     "-DCMAKE_INSTALL_RPATH=#{private_lib}",
                     "-DCMAKE_BUILD_RPATH=#{private_lib}",
