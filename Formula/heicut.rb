@@ -6,17 +6,30 @@ class Heicut < Formula
   head "https://github.com/KaHIP/HeiCut.git", branch: "main"
 
   depends_on "cmake" => :build
-  depends_on "gcc" => :build
   depends_on "boost"
   depends_on "hwloc"
   depends_on "tbb"
   depends_on "google-sparsehash"
 
+  on_linux do
+    depends_on "gcc" => :build
+  end
+
   def install
-    gcc = Formula["gcc"]
-    gcc_version = gcc.version.major
-    cc = "#{gcc.opt_bin}/gcc-#{gcc_version}"
-    cxx = "#{gcc.opt_bin}/g++-#{gcc_version}"
+    if OS.mac?
+      # Use default compiler (Apple Clang) on macOS to avoid Boost ABI mismatch
+      # (Homebrew Boost is built with Clang/libc++, incompatible with GCC/libstdc++)
+      cc = ENV.cc
+      cxx = ENV.cxx
+      extra_cxx = "-w -include cstdint"
+    else
+      # Use GCC on Linux
+      gcc = Formula["gcc"]
+      gcc_version = gcc.version.major
+      cc = "#{gcc.opt_bin}/gcc-#{gcc_version}"
+      cxx = "#{gcc.opt_bin}/g++-#{gcc_version}"
+      extra_cxx = "-w -include cstdint -Wno-template-body"
+    end
 
     # Build Mt-KaHyPar dependency from source at pinned commit
     mtkahypar_src = buildpath/"_mtkahypar_src"
@@ -28,18 +41,10 @@ class Heicut < Formula
     end
 
     # Fix growt compilation error with GCC 15 (-Wtemplate-body)
+    # Also needed for correctness even with Clang (real bug in growt)
     growt_file = mtkahypar_src/"external_tools/growt/data-structures/migration_table_iterator.hpp"
     inreplace growt_file, "sref.ref.refresh()", "sref._mref.refresh()"
     inreplace growt_file, "sref.ref.update(", "sref._mref.update("
-
-    # Strip -march flags that GCC doesn't understand on macOS (e.g. apple-m3)
-    ENV.remove "HOMEBREW_OPTFLAGS", /-march=\S*/
-    ENV["CFLAGS"] = ENV.fetch("CFLAGS", "").gsub(/-march=\S*/, "").strip
-    ENV["CXXFLAGS"] = ENV.fetch("CXXFLAGS", "").gsub(/-march=\S*/, "").strip
-
-    # On macOS with GCC, use a portable -march instead of -march=native (which resolves to apple-m3)
-    extra_cxx = "-w -include cstdint -Wno-template-body"
-    extra_cxx += " -march=armv8-a" if OS.mac?
 
     mkdir mtkahypar_bld do
       system "cmake", mtkahypar_src,
@@ -47,7 +52,6 @@ class Heicut < Formula
              "-DCMAKE_C_COMPILER=#{cc}",
              "-DCMAKE_CXX_COMPILER=#{cxx}",
              "-DCMAKE_CXX_FLAGS=#{extra_cxx}",
-             "-DCMAKE_C_FLAGS=#{OS.mac? ? "-w -march=armv8-a" : "-w"}",
              "-DKAHYPAR_DOWNLOAD_TBB=OFF",
              "-DKAHYPAR_DOWNLOAD_BOOST=OFF",
              "-DKAHYPAR_ENFORCE_MINIMUM_TBB_VERSION=OFF",
