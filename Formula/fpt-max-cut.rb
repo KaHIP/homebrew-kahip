@@ -15,10 +15,15 @@ class FptMaxCut < Formula
     gcc = Formula["gcc"]
     gcc_version = gcc.version.major
 
-    # Build MQLib first
-    system "make", "-C", "solvers/MQLib",
-                   "CFLAGS=-Iinclude -std=c++0x -O2 -w -include cstdint -include limits",
-                   "-j#{ENV.make_jobs}"
+    # Build MQLib first with explicit GCC
+    ENV.prepend_path "PATH", "#{gcc.opt_bin}"
+    mqlib_dir = buildpath/"solvers/MQLib"
+    cd mqlib_dir do
+      inreplace "Makefile", "g++", "#{gcc.opt_bin}/g++-#{gcc_version}"
+      system "make",
+             "CFLAGS=-Iinclude -std=c++0x -O2 -w -include cstdint -include limits",
+             "-j#{ENV.make_jobs}"
+    end
 
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
 
