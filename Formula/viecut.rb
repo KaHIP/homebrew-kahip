@@ -16,6 +16,11 @@ class Viecut < Formula
     sha256 "ecf66b7c9c6c731f5b3338efd394fbeebad5357377c9466df05d682de09bbdc8"
   end
 
+  resource "utils_tm" do
+    url "https://github.com/TooBiased/utils_tm/archive/c985102fa3f99582a7245efe00f5df7ad3287f75.tar.gz"
+    sha256 "d58751a9852831dcbdb208e5f7e046e323d5158751b1edf3e187d6cfcecf6b80"
+  end
+
   depends_on "cmake" => :build
   depends_on "gcc" => :build
   depends_on "open-mpi"
@@ -31,6 +36,10 @@ class Viecut < Formula
     resource("growt").stage do
       (buildpath/"extlib/growt").mkpath
       cp_r Dir["./*"], buildpath/"extlib/growt"
+    end
+    resource("utils_tm").stage do
+      (buildpath/"extlib/growt/utils").mkpath
+      cp_r Dir["./*"], buildpath/"extlib/growt/utils"
     end
 
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
