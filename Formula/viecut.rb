@@ -6,6 +6,16 @@ class Viecut < Formula
   license "MIT"
   head "https://github.com/KaHIP/VieCut.git", branch: "master"
 
+  resource "tlx" do
+    url "https://github.com/tlx/tlx/archive/7d06c6bf10d6621131b5539cda2ff5b37642a6d7.tar.gz"
+    sha256 :no_check
+  end
+
+  resource "growt" do
+    url "https://github.com/TooBiased/growt/archive/5c65f3e2ce7dd8eebe5943be2cd8f55608fb5f4a.tar.gz"
+    sha256 :no_check
+  end
+
   depends_on "cmake" => :build
   depends_on "gcc" => :build
   depends_on "open-mpi"
@@ -13,6 +23,9 @@ class Viecut < Formula
   def install
     gcc = Formula["gcc"]
     gcc_version = gcc.version.major
+
+    resource("tlx").stage { (buildpath/"extlib/tlx").install Dir["*"] }
+    resource("growt").stage { (buildpath/"extlib/growt").install Dir["*"] }
 
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
 
