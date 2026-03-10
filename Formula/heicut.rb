@@ -1,7 +1,7 @@
 class Heicut < Formula
   desc "Exact minimum cuts in hypergraphs at scale using FPT kernelization"
   homepage "https://github.com/KaHIP/HeiCut"
-  url "https://github.com/KaHIP/HeiCut.git", tag: "v1.1"
+  url "https://github.com/KaHIP/HeiCut.git", tag: "v1.0.6"
   license "MIT"
   head "https://github.com/KaHIP/HeiCut.git", branch: "main"
 
