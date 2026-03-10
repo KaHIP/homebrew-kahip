@@ -2,7 +2,7 @@ class Viecut < Formula
   desc "VieCut - Shared-Memory Parallel Minimum Cut Algorithms"
   homepage "https://github.com/KaHIP/VieCut"
   url "https://github.com/KaHIP/VieCut/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "72d5a2e7ee3b12859365d515545775bd59b2d8b13b1ff25d456f4bd41402479c"
+  sha256 "2d853894bdf48f8f662a931b7fa7645d7aeecbe4692b81c01c14df79355f05b5"
   license "MIT"
   head "https://github.com/KaHIP/VieCut.git", branch: "master"
 
