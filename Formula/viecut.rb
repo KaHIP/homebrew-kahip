@@ -35,6 +35,7 @@ class Viecut < Formula
                     "-DCMAKE_CXX_COMPILER=#{gcc.opt_bin}/g++-#{gcc_version}",
                     "-DCMAKE_C_FLAGS=-w",
                     "-DCMAKE_CXX_FLAGS=-w",
+                    "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
                     "-DUSE_TCMALLOC=OFF",
                     "-DRUN_TESTS=OFF",
                     *cmake_args
