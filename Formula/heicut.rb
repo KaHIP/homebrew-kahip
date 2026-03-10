@@ -25,11 +25,12 @@ class Heicut < Formula
     cd mtkahypar_src do
       system "git", "checkout", "0ef674a"
       system "git", "submodule", "update", "--init", "--recursive"
-
-      # Fix growt compilation error with GCC 15 (-Wtemplate-body)
-      inreplace "external_tools/growt/data-structures/migration_table_iterator.hpp",
-        "sref.ref.refresh();", "sref._mref.refresh();"
     end
+
+    # Fix growt compilation error with GCC 15 (-Wtemplate-body)
+    growt_file = mtkahypar_src/"external_tools/growt/data-structures/migration_table_iterator.hpp"
+    inreplace growt_file, "sref.ref.refresh()", "sref._mref.refresh()"
+    inreplace growt_file, "sref.ref.update(", "sref._mref.update("
 
     mkdir mtkahypar_bld do
       system "cmake", mtkahypar_src,
