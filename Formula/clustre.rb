@@ -15,23 +15,19 @@ class Clustre < Formula
     gcc_version = gcc.version.major
 
     # Homebrew's GCC on macOS sets _GLIBCXX_HAVE_QUICK_EXIT=1 in c++config.h
-    # but the macOS SDK never declared at_quick_exit/quick_exit in <stdlib.h>.
-    # Provide stub declarations via a force-included header so that <cstdlib>
-    # finds them when it does `using ::quick_exit;`.
+    # but the macOS SDK hides at_quick_exit/quick_exit behind Darwin feature
+    # macros that GCC doesn't define. Provide forward declarations so that
+    # <cstdlib>'s `using ::quick_exit;` succeeds. The functions exist in
+    # libSystem since macOS 13.
     if OS.mac?
       (buildpath/"gcc_macos_compat.h").write <<~HEADER
         #ifndef GCC_MACOS_COMPAT_H
         #define GCC_MACOS_COMPAT_H
-        #ifdef __APPLE__
-        #include <stdlib.h>
-        #ifdef __cplusplus
+        #if defined(__APPLE__) && defined(__cplusplus)
         extern "C" {
-        #endif
-        static inline void quick_exit(int status) { _Exit(status); }
-        static inline int at_quick_exit(void (*func)(void)) { return atexit(func); }
-        #ifdef __cplusplus
+        extern void quick_exit(int) __attribute__((__noreturn__));
+        extern int at_quick_exit(void (*)(void)) __attribute__((__nonnull__(1)));
         }
-        #endif
         #endif
         #endif
       HEADER
