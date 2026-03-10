@@ -7,8 +7,8 @@ class Viecut < Formula
   head "https://github.com/KaHIP/VieCut.git", branch: "master"
 
   resource "tlx" do
-    url "https://github.com/tlx/tlx/archive/7d06c6bf10d6621131b5539cda2ff5b37642a6d7.tar.gz"
-    sha256 "058eab4342c8cfa6fb0b8c0648353460487ec66d7be4c683e7b1c079df8be8a4"
+    url "https://github.com/tlx/tlx/archive/refs/tags/v0.6.1.tar.gz"
+    sha256 "24dd1acf36dd43b8e0414420e3f9adc2e6bb0e75047e872a06167961aedad769"
   end
 
   resource "growt" do
