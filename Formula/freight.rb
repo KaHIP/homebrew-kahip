@@ -2,7 +2,7 @@ class Freight < Formula
   desc "FREIGHT - Fast Streaming Hypergraph Partitioning"
   homepage "https://github.com/KaHIP/FREIGHT"
   url "https://github.com/KaHIP/FREIGHT/archive/refs/tags/v1.0.tar.gz"
-  sha256 "a6b458a68c2ac5adc4b378504ce5ab922eefa9d419f6d71183f3a8382fdd8b9f"
+  sha256 "8020840f2c4ed7455cc822d974751bc4d5bdefbed4e6009cc1bbac7329f062ea"
   license "MIT"
   head "https://github.com/KaHIP/FREIGHT.git", branch: "main"
 
