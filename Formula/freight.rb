@@ -44,6 +44,7 @@ class Freight < Formula
     bin.install "build/freight_cut"
     bin.install "build/freight_con"
     bin.install "build/freight_graphs"
+    bin.install "build/hmetis_to_freight"
   end
 
   test do
