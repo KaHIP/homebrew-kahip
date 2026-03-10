@@ -8,12 +8,12 @@ class Viecut < Formula
 
   resource "tlx" do
     url "https://github.com/tlx/tlx/archive/7d06c6bf10d6621131b5539cda2ff5b37642a6d7.tar.gz"
-    sha256 :no_check
+    sha256 "058eab4342c8cfa6fb0b8c0648353460487ec66d7be4c683e7b1c079df8be8a4"
   end
 
   resource "growt" do
     url "https://github.com/TooBiased/growt/archive/5c65f3e2ce7dd8eebe5943be2cd8f55608fb5f4a.tar.gz"
-    sha256 :no_check
+    sha256 "ecf66b7c9c6c731f5b3338efd394fbeebad5357377c9466df05d682de09bbdc8"
   end
 
   depends_on "cmake" => :build
