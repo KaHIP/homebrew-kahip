@@ -50,14 +50,14 @@ class Heicut < Formula
     mtkahypar_lib = Dir["#{mtkahypar_bld}/**/libmtkahypar.{so,dylib}"].first
     odie "libmtkahypar not found after build" unless mtkahypar_lib
 
-    # Install the library to Homebrew lib directory
+    # Install the library with heicut-specific name to avoid conflicts with other formulas
     ext = File.extname(mtkahypar_lib)
-    lib.install mtkahypar_lib => "libmtkahypar#{ext}"
+    lib.install mtkahypar_lib => "libmtkahypar_heicut#{ext}"
 
     # Update CMakeLists.txt to link against the installed library
     inreplace "CMakeLists.txt",
       "${CMAKE_CURRENT_SOURCE_DIR}/extern/mt-kahypar-library/libmtkahypar.so",
-      "#{lib}/libmtkahypar#{ext}"
+      "#{lib}/libmtkahypar_heicut#{ext}"
 
     # Build HeiCut without Gurobi
     cmake_args = std_cmake_args.reject { |a| a.start_with?("-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=") }
