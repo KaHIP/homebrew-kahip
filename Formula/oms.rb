@@ -2,7 +2,7 @@ class Oms < Formula
   desc "OMS - Streaming Process Mapping and Hierarchical Graph Partitioning"
   homepage "https://github.com/KaHIP/OnlineMultiSection"
   url "https://github.com/KaHIP/OnlineMultiSection/archive/refs/tags/v1.0.tar.gz"
-  sha256 "690cc4d787995625c806e2f94200047e1d682e01d96ac8cf5eb865a65fa4d8be"
+  sha256 "32bc363221acb7f633db20be32c7e6620d8851bb9ff4dabdc2d7f2ff2752577e"
   license "MIT"
   head "https://github.com/KaHIP/OnlineMultiSection.git", branch: "master"
 
