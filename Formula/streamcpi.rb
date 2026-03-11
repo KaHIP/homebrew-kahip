@@ -2,7 +2,7 @@ class Streamcpi < Formula
   desc "StreamCPI - Memory-Efficient Streaming Graph Partitioning via Compression"
   homepage "https://github.com/KaHIP/CompressedStreamingGraphPartitioning"
   url "https://github.com/KaHIP/CompressedStreamingGraphPartitioning/releases/download/v1.0/streamcpi-v1.0-full.tar.gz"
-  sha256 "ca1ee89202e7d07377ba58f3b86efc6b94824e9c9b0d3934b5d6d469f45ccae3"
+  sha256 "76413f9bf1e1dc402219ef9230884cafed94c7d55662d42eae02458fae876538"
   license "MIT"
   head "https://github.com/KaHIP/CompressedStreamingGraphPartitioning.git", branch: "main"
 
