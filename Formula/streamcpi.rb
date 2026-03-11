@@ -1,6 +1,8 @@
 class Streamcpi < Formula
   desc "StreamCPI - Memory-Efficient Streaming Graph Partitioning via Compression"
   homepage "https://github.com/KaHIP/CompressedStreamingGraphPartitioning"
+  url "https://github.com/KaHIP/CompressedStreamingGraphPartitioning/releases/download/v1.0/streamcpi-v1.0-full.tar.gz"
+  sha256 "ca1ee89202e7d07377ba58f3b86efc6b94824e9c9b0d3934b5d6d469f45ccae3"
   license "MIT"
   head "https://github.com/KaHIP/CompressedStreamingGraphPartitioning.git", branch: "main"
 
@@ -22,10 +24,9 @@ class Streamcpi < Formula
                     "-DCMAKE_CXX_FLAGS=-w",
                     "-DNONATIVEOPTIMIZATIONS=ON",
                     *cmake_args
-    system "cmake", "--build", "build", "-j#{ENV.make_jobs}"
+    system "cmake", "--build", "build", "--target", "stream_cpi", "-j#{ENV.make_jobs}"
 
     bin.install "build/stream_cpi"
-    bin.install "build/stream_cpi_generated"
   end
 
   test do
