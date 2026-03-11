@@ -1,8 +1,8 @@
 class Heistream < Formula
   desc "HeiStream - Buffered Streaming Graph Partitioning"
   homepage "https://github.com/KaHIP/HeiStream"
-  url "https://github.com/KaHIP/HeiStream/releases/download/v1.0/heistream-v1.0-full.tar.gz"
-  sha256 "30ecc14e152ed353fcf8a2375bf2a3496d49e21ab56c19bd1125827639561301"
+  url "https://github.com/KaHIP/HeiStream/releases/download/v2.0/heistream-v2.0-full.tar.gz"
+  sha256 "4935bef7b7449867f61f7cb70a3477dbd9651d77f3918362a45b86756d72c09d"
   license "MIT"
   head "https://github.com/KaHIP/HeiStream.git", branch: "main"
 
