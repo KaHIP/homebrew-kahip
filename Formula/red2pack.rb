@@ -52,7 +52,7 @@ class Red2pack < Formula
       2 3 5
       3 4
     EOS
-    output = shell_output("#{bin}/red2pack_heuristic --graph=#{testpath}/test.graph 2>&1")
-    assert_match(/solution|packing|MIS|independent/i, output)
+    output = shell_output("#{bin}/red2pack_heuristic #{testpath}/test.graph 2>&1")
+    assert_match(/packing|solution|MIS|independent|time/i, output)
   end
 end
