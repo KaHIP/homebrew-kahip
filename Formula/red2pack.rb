@@ -2,7 +2,7 @@ class Red2pack < Formula
   desc "Exact and heuristic solvers for the maximum (weight) 2-packing set problem"
   homepage "https://github.com/KarlsruheMIS/red2pack"
   url "https://github.com/KarlsruheMIS/red2pack/releases/download/v2.0.0/red2pack-2.0.0.tar.gz"
-  sha256 "545321c40e22eb9400b953a6f94463781ec4d21781eb1c13b213278dfbc2b87a"
+  sha256 "36d205915fe8d5da2564290ed3a4e520eeac9d5b0309385e58f6bda27b7e52c6"
   license "MIT"
   head "https://github.com/KarlsruheMIS/red2pack.git", branch: "master"
 
