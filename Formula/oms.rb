@@ -2,13 +2,12 @@ class Oms < Formula
   desc "OMS - Streaming Process Mapping and Hierarchical Graph Partitioning"
   homepage "https://github.com/KaHIP/OnlineMultiSection"
   url "https://github.com/KaHIP/OnlineMultiSection/archive/refs/tags/v1.0.tar.gz"
-  sha256 "3efff85ea988d51bcb3573946365b9feb1f9ddbda8fbc6b7957ae3ed3f91c239"
+  sha256 "6806ed411ff802775225db09558c77bc29fe353a062f045d27877c9f585216e7"
   license "MIT"
   head "https://github.com/KaHIP/OnlineMultiSection.git", branch: "master"
 
   depends_on "cmake" => :build
   depends_on "gcc" => :build
-  depends_on "open-mpi"
 
   def install
     gcc = Formula["gcc"]
