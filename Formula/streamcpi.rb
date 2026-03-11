@@ -18,6 +18,7 @@ class Streamcpi < Formula
 
     system "cmake", "-B", "build",
                     "-DCMAKE_BUILD_TYPE=Release",
+                    "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
                     "-DCMAKE_C_COMPILER=#{gcc.opt_bin}/gcc-#{gcc_version}",
                     "-DCMAKE_CXX_COMPILER=#{gcc.opt_bin}/g++-#{gcc_version}",
                     "-DCMAKE_C_FLAGS=-w",
