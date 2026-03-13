@@ -1,8 +1,8 @@
 class Kahip < Formula
   desc "Karlsruhe High Quality Partitioning - graph partitioning framework"
   homepage "https://github.com/KaHIP/KaHIP"
-  url "https://github.com/KaHIP/KaHIP/archive/refs/tags/v3.23.tar.gz"
-  sha256 "04d2655074457e17aad12b584e167995cee464532b7b909dcebd3445461783b8"
+  url "https://github.com/KaHIP/KaHIP/archive/refs/tags/v3.25.tar.gz"
+  sha256 "3abad20158887b585b4d4792c35fa9023b7fd634b2bc4494334a3951b69f4842"
   license "MIT"
   head "https://github.com/KaHIP/KaHIP.git", branch: "master"
 
