@@ -2,7 +2,7 @@ class Scc < Formula
   desc "SCC - Scalable Correlation Clustering for Signed Graphs"
   homepage "https://github.com/KaHIP/ScalableCorrelationClustering"
   url "https://github.com/KaHIP/ScalableCorrelationClustering/archive/refs/tags/v1.2.tar.gz"
-  sha256 "6c7afb341ba347368ed01d095b900728420b3cde3da89d183f8c1ccb1b40c215"
+  sha256 "65ed5671e5e28821ec62af3cb6440e6fbee48c48cd8069a4f50d14f895ea2122"
   license "MIT"
   head "https://github.com/KaHIP/ScalableCorrelationClustering.git", branch: "main"
 
