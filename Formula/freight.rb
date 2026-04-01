@@ -1,8 +1,8 @@
 class Freight < Formula
   desc "FREIGHT - Fast Streaming Hypergraph Partitioning"
   homepage "https://github.com/KaHIP/FREIGHT"
-  url "https://github.com/KaHIP/FREIGHT/archive/refs/tags/v1.0.tar.gz"
-  sha256 "8020840f2c4ed7455cc822d974751bc4d5bdefbed4e6009cc1bbac7329f062ea"
+  url "https://github.com/KaHIP/FREIGHT/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "a524193379504cf5ac8df5f57fab5047e8a4ddcbec2663d2dc39bd4b1443a0b4"
   license "MIT"
   head "https://github.com/KaHIP/FREIGHT.git", branch: "main"
 
@@ -61,15 +61,19 @@ class Freight < Formula
     output = shell_output("#{bin}/freight_graphs #{testpath}/test.graph --k=2 2>&1")
     assert_match(/cut/, output)
 
-    # Test hypergraph partitioning
-    (testpath/"test.hgr").write <<~EOS
+    # Test hypergraph partitioning (net-list format)
+    (testpath/"test.netl").write <<~EOS
       4 3
       1 2
       1 3
       2
       2 3
     EOS
-    output = shell_output("#{bin}/freight_cut #{testpath}/test.hgr --k=2 2>&1")
+    output = shell_output("#{bin}/freight_cut #{testpath}/test.netl --k=2 2>&1")
     assert_match(/cut/, output)
+
+    # Test hMETIS detection
+    output = shell_output("#{bin}/freight_cut #{testpath}/test.hgr --k=2 2>&1", 1)
+    assert_match(/hMETIS format/, output)
   end
 end
