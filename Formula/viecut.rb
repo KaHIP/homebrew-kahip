@@ -1,7 +1,7 @@
 class Viecut < Formula
   desc "VieCut - Shared-Memory Parallel Minimum Cut Algorithms"
   homepage "https://github.com/KaHIP/VieCut"
-  url "https://github.com/KaHIP/VieCut.git", tag: "v1.1"
+  url "https://github.com/KaHIP/VieCut.git", tag: "v2.0"
   license "MIT"
   head "https://github.com/KaHIP/VieCut.git", branch: "master"
 
@@ -46,5 +46,7 @@ class Viecut < Formula
     EOS
     output = shell_output("#{bin}/viecut_mincut #{testpath}/test.graph vc 2>&1")
     assert_match(/cut=/, output)
+    output = shell_output("#{bin}/viecut_mincut #{testpath}/test.graph sw 2>&1")
+    assert_match(/cut=2 /, output)
   end
 end
